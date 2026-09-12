@@ -1,8 +1,20 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Chat from './pages/Chat';
+import PrivateRoute from './components/PrivateRoute';
+
 function App() {
   return (
-    <div>
-      <h1>Real-time Chat</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/" element={<Chat />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
