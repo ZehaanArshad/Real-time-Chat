@@ -37,3 +37,7 @@ export async function login(req, res) {
     res.status(500).json({ message: 'Login failed' });
   }
 }
+
+export async function me(req, res) {
+  res.status(200).json({ user: req.user });
+}
