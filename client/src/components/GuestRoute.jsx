@@ -1,12 +1,12 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
-function PrivateRoute() {
+function GuestRoute() {
   const { user, isLoading } = useAuth();
 
   if (isLoading) return null;
 
-  return user ? <Outlet /> : <Navigate to="/login" replace />;
+  return user ? <Navigate to="/" replace /> : <Outlet />;
 }
 
-export default PrivateRoute;
+export default GuestRoute;
