@@ -1,5 +1,6 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useCallback } from 'react';
 import * as authApi from '../api/auth';
+import api from '../api/axios';
 
 export const AuthContext = createContext(null);
 
@@ -25,22 +26,35 @@ export function AuthProvider({ children }) {
     setToken(nextToken);
   }
 
-  async function login(credentials) {
+  const login = useCallback(async (credentials) => {
     const { user: loggedInUser, token: newToken } = await authApi.login(credentials);
     persistSession(loggedInUser, newToken);
-  }
+  }, []);
 
-  async function signup(data) {
+  const signup = useCallback(async (data) => {
     const { user: newUser, token: newToken } = await authApi.signup(data);
     persistSession(newUser, newToken);
-  }
+  }, []);
 
-  function logout() {
+  const logout = useCallback(() => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     setUser(null);
     setToken(null);
-  }
+  }, []);
+
+  useEffect(() => {
+    const interceptorId = api.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response?.status === 401) {
+          logout();
+        }
+        return Promise.reject(error);
+      }
+    );
+    return () => api.interceptors.response.eject(interceptorId);
+  }, [logout]);
 
   const value = { user, token, isLoading, login, signup, logout };
 

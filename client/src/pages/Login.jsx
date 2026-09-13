@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import ErrorBanner from '../components/ErrorBanner';
 
 function Login() {
   const { login } = useAuth();
@@ -69,7 +70,7 @@ function Login() {
           {fieldErrors.password && <p role="alert">{fieldErrors.password}</p>}
         </div>
 
-        {formError && <p role="alert">{formError}</p>}
+        <ErrorBanner message={formError} />
 
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Logging in...' : 'Login'}

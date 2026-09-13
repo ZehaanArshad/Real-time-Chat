@@ -1,0 +1,11 @@
+function ErrorBanner({ message }) {
+  if (!message) return null;
+
+  return (
+    <div role="alert" className="error-banner">
+      {message}
+    </div>
+  );
+}
+
+export default ErrorBanner;

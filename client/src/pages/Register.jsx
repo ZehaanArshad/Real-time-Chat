@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import ErrorBanner from '../components/ErrorBanner';
 
 function Register() {
   const { signup } = useAuth();
@@ -78,7 +79,7 @@ function Register() {
           {fieldErrors.password && <p role="alert">{fieldErrors.password}</p>}
         </div>
 
-        {formError && <p role="alert">{formError}</p>}
+        <ErrorBanner message={formError} />
 
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Creating account...' : 'Register'}
